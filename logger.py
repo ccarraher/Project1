@@ -29,5 +29,4 @@ while command != "QUIT":
         command = sys.stdin.readline().rstrip()
         message = sys.stdin.readline().rstrip()
 
-if command == "QUIT":
-    log("QUIT", "Stopping logging", file)
+log("QUIT", "Stopping logging", file)
