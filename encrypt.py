@@ -5,27 +5,34 @@ def setPassword(arg):
     global password
     password = arg
 
+def generateKey(string):
+    key = list(password)
+    if len(string) == len(key):
+        return (key)
+    else:
+        for i in range(len(string) -len(key)):
+            key.append(key[i % len(key)])
+    return("".join(key))
+
 def encrypt(arg):
     # Vigenere cypher
-    key_length = len(password)
-    key_as_int = [ord(i) for i in password]
-    plaintext_int = [ord(i) for i in arg]
-    ciphertext = ''
-    for i in range(len(plaintext_int)):
-        value = (plaintext_int[i] + key_as_int[i % key_length]) % 26
-        ciphertext += chr(value + 65)
-    return ciphertext
+    key = generateKey(arg)
+    encrypt_text = []
+    for i in range(len(arg)):
+        x = (ord(arg[i]) +ord(key[i])) % 26
+        x += ord('A')
+        encrypt_text.append(chr(x))
+    return ("".join(encrypt_text))
 
 def decrypt(arg):
     # Vigenere cypher
-    key_length = len(password)
-    key_as_int = [ord(i) for i in password]
-    ciphertext_int = [ord(i) for i in arg]
-    plaintext = ''
-    for i in range(len(ciphertext_int)):
-        value = (ciphertext_int[i] - key_as_int[i % key_length]) % 26
-        plaintext += chr(value + 65)
-    return plaintext
+    key = generateKey(arg)
+    orig_text = []
+    for i in range(len(arg)):
+        x = (ord(arg[i]) -ord(key[i]) + 26) % 26
+        x += ord('A')
+        orig_text.append(chr(x))
+    return("".join(orig_text))
 
 def parseCommand(command, arg):
     if(command == "PASSKEY"):

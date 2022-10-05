@@ -46,7 +46,7 @@ def parseCommand(command):
     elif command == "encrypt":
         option = input("Enter 1 to type new encryption string or 2 to choose from history: ")
         if option == "1":
-            arg = input("Enter new encryption string: ")
+            arg = input("Enter new encryption string (greater than 2): ")
             history.append(arg)
         elif option == "2":
             showHistory()
@@ -57,8 +57,9 @@ def parseCommand(command):
         # Tell encryption to do encrypt command
         encrypt.stdin.write("ENCRYPT\n")
         encrypt.stdin.write(arg + "\n")
-
         encrypt.stdin.flush()
+        logger.stdin.write("ENCRYPT\n")
+        logger.stdin.write("Encrypting the string " + arg + "\n")
         # Get back the results
         e = encrypt.stdout.readline().rstrip()
         m = encrypt.stdout.readline().rstrip()
@@ -76,7 +77,7 @@ def parseCommand(command):
     elif command == "decrypt":
         option = input("Enter 1 to type new decrypt message or 2 to choose from history: ")
         if option == "1":
-            arg = input("Enter new decrypt message: ")
+            arg = input("Enter new decrypt message (greater than 2): ")
             history.append(arg)
         elif option == "2":
             showHistory()
@@ -87,6 +88,9 @@ def parseCommand(command):
         encrypt.stdin.write("DECRYPT\n")
         encrypt.stdin.write(arg + "\n")
         encrypt.stdin.flush()
+        logger.stdin.write("DECRYPT\n")
+        logger.stdin.write("Decrypting the string " + arg + "\n")
+
         e = encrypt.stdout.readline().rstrip()
         m = encrypt.stdout.readline().rstrip()
         
